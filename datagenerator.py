@@ -3,7 +3,7 @@ import requests
 import paho.mqtt.client as mqtt 
 import time 
 
-use_mqtt = False
+use_mqtt = True
 
 if use_mqtt:
     broker_address="broker.hivemq.com"
@@ -32,7 +32,7 @@ for line in file:
             response = requests.post('http://localhost:5000/newmeasurement', data = jsonm)
             print(response)
         if use_mqtt:
-            client.publish("my_topic", jsonm)
+            client.publish("my_topicpm", jsonm)
         time.sleep(1)
 
 
