@@ -1,0 +1,60 @@
+<html>
+  <head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    
+    <script type="text/javascript">
+      var pos_arr = [];
+      function make_array(data2) {
+          // luetaan palvelimelta tullut lista
+          for (let index = 0; index < data2.length; index++) {
+            // debug-tulostus (voi tarkastella chromessa)
+            console.log(data2[index])
+            // otetaan palvelimen listasta rivi ja muutetaan se taulukoksi
+            // ja lisätään tämä taulukko arr-taulukkoon ensimmäiseksi
+            var row = data2[index];
+            //arr.splice(0,0,[row.id, row.pressure, row.temperature, row.humidity]);
+            pos_arr.splice(0,0,[row.x, row.y]);
+          }
+          //data2 = JSON.parse(data)
+          //console.log(data['pressure']);
+      }
+      make_array({{ result|safe }})
+    </script>
+  
+    
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawTablePosition);
+
+      function drawTablePosition() {
+
+        //var data = google.visualization.arrayToDataTable(arr);
+
+        var data = new google.visualization.DataTable();
+        // lisätään Tableen sarakkeet
+        data.addColumn('number', 'x');
+        data.addColumn('number', 'y');
+        //data.addColumn('number', 'temperature');
+        //data.addColumn('number', 'humidity');
+        // lisätään Tableen data
+        data.addRows(pos_arr);
+
+        var options = {
+          title: 'xy',
+          hAxis: {title: 'X', minValue: -5, maxValue: 5},
+          vAxis: {title: 'Y', minValue: -5, maxValue: 5},
+          legend: 'none'
+        };
+
+
+        var chart = new google.visualization.LineChart(document.getElementById('linechart_div'));
+
+        chart.draw(data, options);
+      }      
+     
+    </script>
+  </head>
+  <body>
+    <div id="linechart_div"></div>
+  </body>
+</html>

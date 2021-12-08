@@ -28,8 +28,8 @@ for line in file:
         jsonm = json.dumps(positionData, indent=True)
         print(jsonm)
         # lähetetään HTTP:lla
-        if False: # omalle palvelinohjelmalle tai Thingspeakiin
-            response = requests.post('http://localhost:5000/newmeasurement', data = jsonm)
+        if True: # omalle palvelinohjelmalle tai Thingspeakiin
+            response = requests.post('http://localhost:5000/newmeasurement/', data = jsonm)
             print(response)
         if use_mqtt:
             client.publish("my_topicpm", jsonm)
